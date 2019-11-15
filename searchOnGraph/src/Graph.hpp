@@ -11,6 +11,7 @@
 #define Graph_hpp
 
 #include <iostream>
+#include <set>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -18,13 +19,14 @@
 class Node;
 
 class Graph {
-protected:
-    std::vector<Node*> m_nodes;
+private:
+    std::set<Node*> m_nodes;
 public:
-    std::vector<Node*> getNodes() const;
+    std::set<Node*> getNodes() const;
     void addNode(Node *node);
     void printNodes();
     void possiblePathsDependsOnBudget(Node* startingPoint, int budget,std::string path = "");
+    bool contains(const Node* node) const;
 };
 
 #endif /* Graph_hpp */
