@@ -11,15 +11,29 @@
 #include "Link.hpp"
 
 
-std::vector<Node*> Graph::getNodes() const{
+bool Graph::contains(const Node* node)const{
+    const char nodePoint = node->getPoint();
+    char nodePoint2;
+    for(std::set<Node*>::iterator it = m_nodes.begin(); it != m_nodes.end(); ++it)
+    {
+        nodePoint2 = (*it)->getPoint();
+        if (nodePoint == nodePoint2) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::set<Node*> Graph::getNodes() const{
     return m_nodes;
 }
 
 
 void Graph::addNode(Node *node){
-    if(std::find(m_nodes.begin(), m_nodes.end(), node) != m_nodes.end())
+    if (contains(node)) {
         return;
-    m_nodes.push_back(new Node(*node));
+    }
+    m_nodes.insert(new Node(*node));
 }
 
 void Graph::printNodes(){
@@ -30,6 +44,9 @@ void Graph::printNodes(){
 
 void Graph::possiblePathsDependsOnBudget(Node* startingPoint, int budget, std::string path){
     // pass argument starting point as  *(m_nodes.at(0))
+    if(!contains(startingPoint)){ // to check if graph m_nodes contains starting node
+        return;
+    }
     bool toAvoidDuplicate = false;
     path.push_back(startingPoint->getPoint());
     if(budget> 0){
